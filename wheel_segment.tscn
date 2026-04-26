@@ -1,0 +1,39 @@
+[gd_scene load_steps=12 format=3 uid="uid://6r3jpdwujkvb"]
+
+[ext_resource type="Texture2D" uid="uid://d4had72t5f2s2" path="res://Assets/WheelSegments/wheel_segment1.png" id="1_6q0d0"]
+[ext_resource type="Script" uid="uid://bd1xw6ljvtoll" path="res://wheel_segment.gd" id="1_k8kjl"]
+[ext_resource type="FontFile" uid="uid://rkcb8hktwivk" path="res://Pixel TimesB.ttf" id="2_k8kjl"]
+[ext_resource type="Texture2D" uid="uid://civec480om3xb" path="res://Assets/WheelSegments/wheel_segment2.png" id="3_ckatg"]
+[ext_resource type="Texture2D" uid="uid://d155dmydy5grh" path="res://Assets/WheelSegments/wheel_segment3.png" id="4_es0u0"]
+[ext_resource type="Texture2D" uid="uid://b2wtyjgqte05m" path="res://Assets/WheelSegments/wheel_segment4.png" id="5_cvphk"]
+[ext_resource type="Texture2D" uid="uid://hto3gaydk2ii" path="res://Assets/WheelSegments/wheel_segment5.png" id="6_cnd55"]
+[ext_resource type="Texture2D" uid="uid://cojew3racv3tq" path="res://Assets/WheelSegments/wheel_segment6.png" id="7_4c0r1"]
+[ext_resource type="Texture2D" uid="uid://wfsasqbur54x" path="res://Assets/WheelSegments/wheel_segment7.png" id="8_1icds"]
+[ext_resource type="Texture2D" uid="uid://bfslsope4bkvs" path="res://Assets/WheelSegments/wheel_segment8.png" id="9_50o1v"]
+[ext_resource type="Texture2D" uid="uid://dr8apcwq1hr27" path="res://Assets/WheelSegments/wheel_segment9.png" id="10_cvphk"]
+
+[node name="WheelSegment" type="Node2D"]
+script = ExtResource("1_k8kjl")
+segment_sprites = Array[Texture]([ExtResource("1_6q0d0"), ExtResource("3_ckatg"), ExtResource("4_es0u0"), ExtResource("5_cvphk"), ExtResource("6_cnd55"), ExtResource("7_4c0r1"), ExtResource("8_1icds"), ExtResource("9_50o1v"), ExtResource("10_cvphk")])
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.6378432, 0.6378432, 0.63784313, 1)
+texture = ExtResource("1_6q0d0")
+
+[node name="NumberLabel" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -4.5
+offset_right = 8.0
+offset_bottom = 4.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(8, 4.5)
+theme_override_fonts/font = ExtResource("2_k8kjl")
+theme_override_font_sizes/font_size = 8
+text = "32"
+horizontal_alignment = 1

@@ -1,0 +1,220 @@
+[gd_scene load_steps=22 format=3 uid="uid://bu4pl1mksn5kx"]
+
+[ext_resource type="Script" uid="uid://d3dr0jruo0527" path="res://roulette.gd" id="1_5je5b"]
+[ext_resource type="Script" uid="uid://c8v6wycen7n56" path="res://wheel.gd" id="1_ibne2"]
+[ext_resource type="Texture2D" uid="uid://bns0uwronbf60" path="res://Assets/roulette_wheel.png" id="1_vkh0h"]
+[ext_resource type="PackedScene" uid="uid://6r3jpdwujkvb" path="res://wheel_segment.tscn" id="2_70hxm"]
+[ext_resource type="PackedScene" uid="uid://c1rg2xqpg1ye0" path="res://ball.tscn" id="2_mxkhv"]
+[ext_resource type="Script" uid="uid://d357ubukoc6yv" path="res://ball_pivot.gd" id="2_qna4d"]
+[ext_resource type="Texture2D" uid="uid://d2nfkvoahfi3d" path="res://Assets/background.png" id="2_vtl0u"]
+[ext_resource type="Texture2D" uid="uid://dh40ss8exfjd5" path="res://Assets/roulette_layout.png" id="3_4xxhd"]
+[ext_resource type="Script" uid="uid://eco0t4ouf8oh" path="res://layout.gd" id="3_usp88"]
+[ext_resource type="PackedScene" uid="uid://blnpuip3x0qk8" path="res://layout_segment.tscn" id="4_3hpfy"]
+[ext_resource type="FontFile" uid="uid://rkcb8hktwivk" path="res://Pixel TimesB.ttf" id="5_ibne2"]
+[ext_resource type="Texture2D" uid="uid://bliotju7xi1on" path="res://Assets/spin_button.png" id="7_rtxbk"]
+[ext_resource type="Texture2D" uid="uid://dtmj47j5s48rx" path="res://Assets/spin_button_down.png" id="8_rcb62"]
+[ext_resource type="AudioStream" uid="uid://nxwmska4fde2" path="res://Assets/sfx/tickOne.wav" id="11_xvxhl"]
+[ext_resource type="AudioStream" uid="uid://6l2m6wtkn2eq" path="res://Assets/sfx/tickTwo.wav" id="12_j2b5q"]
+[ext_resource type="AudioStream" uid="uid://bv7rda5eqol2h" path="res://Assets/sfx/tickThree.wav" id="13_hpjsa"]
+[ext_resource type="AudioStream" uid="uid://btnd12gjfxly6" path="res://Assets/sfx/tickFour.wav" id="14_o1kih"]
+[ext_resource type="AudioStream" uid="uid://dxjricdqki4xy" path="res://Assets/sfx/tickFive.wav" id="15_xlo0s"]
+[ext_resource type="AudioStream" uid="uid://wdcvvhhoqhaj" path="res://Assets/sfx/tickSix.wav" id="16_xlo0s"]
+[ext_resource type="AudioStream" uid="uid://dxcef4hxxrgn3" path="res://Assets/sfx/tickSeven.wav" id="17_jmval"]
+[ext_resource type="AudioStream" uid="uid://ct010bwor35ak" path="res://Assets/sfx/tickEight.wav" id="18_e0qua"]
+
+[node name="Roulette" type="Node2D"]
+script = ExtResource("1_5je5b")
+red_color = Color(0.6745098, 0.19607843, 0.19607843, 1)
+black_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(384, 216)
+texture = ExtResource("2_vtl0u")
+
+[node name="Layout" type="Node2D" parent="."]
+script = ExtResource("3_usp88")
+layout_segment_scene = ExtResource("4_3hpfy")
+segment_height = 31
+grid_offset = 3
+
+[node name="Layout" type="Sprite2D" parent="Layout"]
+position = Vector2(657.5, 216)
+texture = ExtResource("3_4xxhd")
+
+[node name="Control" type="Control" parent="Layout"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="1st12" type="Label" parent="Layout/Control"]
+layout_mode = 0
+offset_left = 625.5
+offset_top = 13.5
+offset_right = 758.5
+offset_bottom = 46.5
+rotation = 1.5707964
+theme_override_fonts/font = ExtResource("5_ibne2")
+theme_override_font_sizes/font_size = 16
+text = "1st 12"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="2nd12" type="Label" parent="Layout/Control"]
+layout_mode = 0
+offset_left = 625.5
+offset_top = 149.5
+offset_right = 758.5
+offset_bottom = 182.5
+rotation = 1.5707964
+theme_override_fonts/font = ExtResource("5_ibne2")
+theme_override_font_sizes/font_size = 16
+text = "2nd 12"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="3rd12" type="Label" parent="Layout/Control"]
+layout_mode = 0
+offset_left = 625.5
+offset_top = 285.5
+offset_right = 758.5
+offset_bottom = 318.5
+rotation = 1.5707964
+theme_override_fonts/font = ExtResource("5_ibne2")
+theme_override_font_sizes/font_size = 16
+text = "3rd 12"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="1-18" type="Label" parent="Layout/Control"]
+layout_mode = 0
+offset_left = 589.5
+offset_top = 13.500001
+offset_right = 654.5
+offset_bottom = 45.5
+rotation = 1.5707964
+theme_override_fonts/font = ExtResource("5_ibne2")
+theme_override_font_sizes/font_size = 8
+text = "1 to 18"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Even" type="Label" parent="Layout/Control"]
+layout_mode = 0
+offset_left = 589.5
+offset_top = 81.5
+offset_right = 654.5
+offset_bottom = 113.5
+rotation = 1.5707964
+theme_override_fonts/font = ExtResource("5_ibne2")
+theme_override_font_sizes/font_size = 8
+text = "Even"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Red" type="Label" parent="Layout/Control"]
+layout_mode = 0
+offset_left = 589.5
+offset_top = 149.5
+offset_right = 654.5
+offset_bottom = 181.5
+rotation = 1.5707964
+theme_override_colors/font_color = Color(0.6745098, 0.19607843, 0.19607843, 1)
+theme_override_fonts/font = ExtResource("5_ibne2")
+theme_override_font_sizes/font_size = 8
+text = "Red"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Black" type="Label" parent="Layout/Control"]
+layout_mode = 0
+offset_left = 589.5
+offset_top = 217.5
+offset_right = 654.5
+offset_bottom = 249.5
+rotation = 1.5707964
+theme_override_colors/font_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
+theme_override_fonts/font = ExtResource("5_ibne2")
+theme_override_font_sizes/font_size = 8
+text = "Black"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Odd" type="Label" parent="Layout/Control"]
+layout_mode = 0
+offset_left = 589.5
+offset_top = 285.5
+offset_right = 654.5
+offset_bottom = 317.5
+rotation = 1.5707964
+theme_override_fonts/font = ExtResource("5_ibne2")
+theme_override_font_sizes/font_size = 8
+text = "Odd"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="9-36" type="Label" parent="Layout/Control"]
+layout_mode = 0
+offset_left = 589.5
+offset_top = 353.5
+offset_right = 654.5
+offset_bottom = 385.5
+rotation = 1.5707964
+theme_override_fonts/font = ExtResource("5_ibne2")
+theme_override_font_sizes/font_size = 8
+text = "9 to 36"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Wheel" type="Node2D" parent="."]
+position = Vector2(222, 180)
+script = ExtResource("1_ibne2")
+wheel_segment_scene = ExtResource("2_70hxm")
+wheel_radius = 140.0
+
+[node name="RouletteWheelSprite" type="Sprite2D" parent="Wheel"]
+z_index = 1
+texture = ExtResource("1_vkh0h")
+
+[node name="BallSpin" type="Node2D" parent="."]
+position = Vector2(320, 160)
+script = ExtResource("2_qna4d")
+tick_sfx = Array[AudioStreamWAV]([ExtResource("11_xvxhl"), ExtResource("12_j2b5q"), ExtResource("13_hpjsa"), ExtResource("14_o1kih"), ExtResource("15_xlo0s"), ExtResource("16_xlo0s"), ExtResource("17_jmval"), ExtResource("18_e0qua")])
+radius = 96.0
+spin_min = 14.0
+spin_max = 23.0
+wheel_start_angle_deg = -85.0
+
+[node name="Ball" parent="BallSpin" instance=ExtResource("2_mxkhv")]
+z_index = 2
+
+[node name="WheelTickPlayer" type="AudioStreamPlayer2D" parent="BallSpin"]
+position = Vector2(-320, -160)
+volume_db = 5.0
+pitch_scale = 0.8
+max_polyphony = 32
+
+[node name="SpinButton" type="TextureButton" parent="."]
+offset_left = 142.0
+offset_top = 354.0
+offset_right = 302.0
+offset_bottom = 412.0
+texture_normal = ExtResource("7_rtxbk")
+texture_pressed = ExtResource("8_rcb62")
+texture_disabled = ExtResource("8_rcb62")
+
+[node name="Number" type="Label" parent="."]
+offset_left = 340.0
+offset_top = 6.0
+offset_right = 436.0
+offset_bottom = 29.0
+theme_override_fonts/font = ExtResource("5_ibne2")
+text = "Number"
+
+[node name="Colour" type="Label" parent="."]
+offset_left = 340.0
+offset_top = 38.0
+offset_right = 424.0
+offset_bottom = 61.0
+theme_override_fonts/font = ExtResource("5_ibne2")
+text = "Colour"
+
+[connection signal="pressed" from="SpinButton" to="BallSpin" method="_on_spin_button_pressed"]
