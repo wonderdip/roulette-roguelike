@@ -15,10 +15,16 @@ run/main_scene="uid://bu4pl1mksn5kx"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Global="*res://scenes/global.tscn"
+
 [display]
 
 window/size/viewport_width=768
-window/size/viewport_height=432
+window/size/viewport_height=448
+window/size/window_width_override=1536
+window/size/window_height_override=896
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 

@@ -4,14 +4,11 @@ class_name Wheel
 @export var wheel_segment_scene: PackedScene
 @export var wheel_radius: float
 
-@onready var roulette: Node2D = $".."
-
-
 func _ready() -> void:
 	spawn_segments()
 
 func spawn_segments() -> void:
-	var total = 36
+	var total = Global.WHEEL_ORDER.size()
 	var angle_step = TAU / total
 
 	for i in range(total):
@@ -33,10 +30,10 @@ func spawn_segments() -> void:
 		segment_node.position = Vector2(cos(angle), sin(angle)) * wheel_radius
 		segment_node.position = segment_node.position.round()
 		
-		var number = roulette.wheel_numbers[i]
+		var number = Global.WHEEL_ORDER[i]
 		segment_node.set_segment(
 			number,
-			roulette.get_colour(number),
+			Global.get_color(Global.DEFAULT_NUMBER_COLORS[number]),
 			sprite_index,
 			sprite_rotation,
 			i * 10,

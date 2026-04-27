@@ -1,8 +1,8 @@
 [gd_scene load_steps=12 format=3 uid="uid://6r3jpdwujkvb"]
 
 [ext_resource type="Texture2D" uid="uid://d4had72t5f2s2" path="res://Assets/WheelSegments/wheel_segment1.png" id="1_6q0d0"]
-[ext_resource type="Script" uid="uid://bd1xw6ljvtoll" path="res://wheel_segment.gd" id="1_k8kjl"]
-[ext_resource type="FontFile" uid="uid://rkcb8hktwivk" path="res://Pixel TimesB.ttf" id="2_k8kjl"]
+[ext_resource type="Script" uid="uid://bd1xw6ljvtoll" path="res://scripts/wheel_segment.gd" id="1_k8kjl"]
+[ext_resource type="FontFile" uid="uid://rkcb8hktwivk" path="res://fonts/Pixel TimesB.ttf" id="2_k8kjl"]
 [ext_resource type="Texture2D" uid="uid://civec480om3xb" path="res://Assets/WheelSegments/wheel_segment2.png" id="3_ckatg"]
 [ext_resource type="Texture2D" uid="uid://d155dmydy5grh" path="res://Assets/WheelSegments/wheel_segment3.png" id="4_es0u0"]
 [ext_resource type="Texture2D" uid="uid://b2wtyjgqte05m" path="res://Assets/WheelSegments/wheel_segment4.png" id="5_cvphk"]

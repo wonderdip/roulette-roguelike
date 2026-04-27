@@ -1,0 +1,204 @@
+[gd_scene load_steps=5 format=3 uid="uid://cjw317m5l7q6x"]
+
+[ext_resource type="Script" uid="uid://eco0t4ouf8oh" path="res://scripts/layout.gd" id="1_jx7fm"]
+[ext_resource type="PackedScene" uid="uid://blnpuip3x0qk8" path="res://scenes/layout_segment.tscn" id="2_trw21"]
+[ext_resource type="Texture2D" uid="uid://dh40ss8exfjd5" path="res://Assets/roulette_layout.png" id="3_272v2"]
+[ext_resource type="FontFile" uid="uid://rkcb8hktwivk" path="res://fonts/Pixel TimesB.ttf" id="4_08ldw"]
+
+[node name="Layout" type="Node2D"]
+script = ExtResource("1_jx7fm")
+layout_segment_scene = ExtResource("2_trw21")
+
+[node name="Layout" type="Sprite2D" parent="."]
+position = Vector2(99, 224)
+texture = ExtResource("3_272v2")
+
+[node name="Labels" type="Control" parent="Layout"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -657.0
+offset_top = -233.0
+offset_right = -657.0
+offset_bottom = -233.0
+
+[node name="1st12" type="Label" parent="Layout/Labels"]
+layout_mode = 0
+offset_left = 626.0
+offset_top = 14.0
+offset_right = 759.0
+offset_bottom = 47.0
+rotation = 1.5707964
+theme_override_fonts/font = ExtResource("4_08ldw")
+theme_override_font_sizes/font_size = 16
+text = "1st 12"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="2nd12" type="Label" parent="Layout/Labels"]
+layout_mode = 0
+offset_left = 625.5
+offset_top = 150.0
+offset_right = 758.5
+offset_bottom = 183.0
+rotation = 1.5707964
+theme_override_fonts/font = ExtResource("4_08ldw")
+theme_override_font_sizes/font_size = 16
+text = "2nd 12"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="3rd12" type="Label" parent="Layout/Labels"]
+layout_mode = 0
+offset_left = 625.5
+offset_top = 286.0
+offset_right = 758.5
+offset_bottom = 319.0
+rotation = 1.5707964
+theme_override_fonts/font = ExtResource("4_08ldw")
+theme_override_font_sizes/font_size = 16
+text = "3rd 12"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="1-18" type="Label" parent="Layout/Labels"]
+layout_mode = 0
+offset_left = 589.5
+offset_top = 14.0
+offset_right = 654.5
+offset_bottom = 46.0
+rotation = 1.5707964
+theme_override_fonts/font = ExtResource("4_08ldw")
+theme_override_font_sizes/font_size = 8
+text = "1 to 18"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Even" type="Label" parent="Layout/Labels"]
+layout_mode = 0
+offset_left = 589.5
+offset_top = 82.0
+offset_right = 654.5
+offset_bottom = 114.0
+rotation = 1.5707964
+theme_override_fonts/font = ExtResource("4_08ldw")
+theme_override_font_sizes/font_size = 8
+text = "Even"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Red" type="Label" parent="Layout/Labels"]
+layout_mode = 0
+offset_left = 589.5
+offset_top = 150.0
+offset_right = 654.5
+offset_bottom = 182.0
+rotation = 1.5707964
+theme_override_colors/font_color = Color(0.6745098, 0.19607843, 0.19607843, 1)
+theme_override_fonts/font = ExtResource("4_08ldw")
+theme_override_font_sizes/font_size = 8
+text = "Red"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Black" type="Label" parent="Layout/Labels"]
+layout_mode = 0
+offset_left = 589.5
+offset_top = 218.0
+offset_right = 654.5
+offset_bottom = 250.0
+rotation = 1.5707964
+theme_override_colors/font_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
+theme_override_fonts/font = ExtResource("4_08ldw")
+theme_override_font_sizes/font_size = 8
+text = "Black"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Odd" type="Label" parent="Layout/Labels"]
+layout_mode = 0
+offset_left = 589.5
+offset_top = 286.0
+offset_right = 654.5
+offset_bottom = 318.0
+rotation = 1.5707964
+theme_override_fonts/font = ExtResource("4_08ldw")
+theme_override_font_sizes/font_size = 8
+text = "Odd"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="9-36" type="Label" parent="Layout/Labels"]
+layout_mode = 0
+offset_left = 589.5
+offset_top = 354.0
+offset_right = 654.5
+offset_bottom = 386.0
+rotation = 1.5707964
+theme_override_fonts/font = ExtResource("4_08ldw")
+theme_override_font_sizes/font_size = 8
+text = "9 to 36"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Column1" type="Label" parent="Layout/Labels"]
+layout_mode = 0
+offset_left = 630.0
+offset_top = 421.0
+offset_right = 670.0
+offset_bottom = 453.0
+theme_override_fonts/font = ExtResource("4_08ldw")
+theme_override_font_sizes/font_size = 8
+text = "Col 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Column2" type="Label" parent="Layout/Labels"]
+layout_mode = 0
+offset_left = 672.0
+offset_top = 421.0
+offset_right = 712.0
+offset_bottom = 453.0
+theme_override_fonts/font = ExtResource("4_08ldw")
+theme_override_font_sizes/font_size = 8
+text = "Col 2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Column3" type="Label" parent="Layout/Labels"]
+layout_mode = 0
+offset_left = 714.0
+offset_top = 421.0
+offset_right = 754.0
+offset_bottom = 453.0
+theme_override_fonts/font = ExtResource("4_08ldw")
+theme_override_font_sizes/font_size = 8
+text = "Col 3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Bets" type="Node2D" parent="."]
+
+[node name="StraightBets" type="Node2D" parent="Bets"]
+
+[node name="SplitBets" type="Node2D" parent="Bets"]
+
+[node name="CornerBets" type="Node2D" parent="Bets"]
+
+[node name="StreetBets" type="Node2D" parent="Bets"]
+
+[node name="DoubleStreetBets" type="Node2D" parent="Bets"]
+
+[node name="DozenBets" type="Node2D" parent="Bets"]
+
+[node name="ColumnBets" type="Node2D" parent="Bets"]
+
+[node name="EighteenBets" type="Node2D" parent="Bets"]
+
+[node name="OddEven" type="Node2D" parent="Bets"]
+
+[node name="ColourBets" type="Node2D" parent="Bets"]
+
+[node name="Segments" type="Node2D" parent="."]
+
+[node name="GridStart" type="Marker2D" parent="."]
+position = Vector2(72, 4)

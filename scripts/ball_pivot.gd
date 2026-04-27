@@ -17,10 +17,8 @@ extends Node2D
 @onready var colour_label: Label = $"../Colour"
 @onready var roulette_wheel: Wheel = $"../Wheel"
 
-@onready var roulette: Node2D = $".."
 @onready var wheel_tick_player: AudioStreamPlayer2D = $WheelTickPlayer
 @onready var spin_button: TextureButton = $"../SpinButton"
-
 
 var angle := 0.0
 var angular_velocity := 0.0
@@ -41,7 +39,7 @@ const DIRECTION := 1.0
 
 func _ready() -> void:
 	center = roulette_wheel.position
-	segment_angle = TAU / roulette.wheel_numbers.size()
+	segment_angle = TAU / Global.WHEEL_ORDER.size()
 	wheel_start_angle_rad = deg_to_rad(wheel_start_angle_deg)
 	stopped = true
 	ball.hide()
@@ -90,9 +88,6 @@ func _process(delta: float) -> void:
 		wheel_tick_player.pitch_scale = randf_range(0.8, 0.9)
 		tick_timer = clamp(1.0 / abs(angular_velocity), 0.05, 0.5)
 		
-	if not stopped and abs(angular_velocity) < stop_threshold * 3:
-		ball.end_spin()
-		
 	if not stopped and abs(angular_velocity) < stop_threshold:
 		end_spin()
 		
@@ -103,18 +98,12 @@ func play_tick():
 func normalize_angle(a: float) -> float:
 	return fposmod(a, TAU)
 
-func get_landing_number(a: float) -> int:
-	return roulette.wheel_numbers[get_index_from_angle(a)]
-
-func get_colour(number: int) -> String:
-	return roulette.wheel_colours.get(number, "Unknown")
-
 func get_index_from_angle(a: float) -> int:
 	# Subtract wheel's current rotation so pockets move with the wheel
 	a = fposmod(a - wheel_angle, TAU)
 	a = fposmod(a - wheel_start_angle_rad, TAU)
 	a += segment_angle * 0.5
-	return int(floor(a / segment_angle)) % roulette.wheel_numbers.size()
+	return int(floor(a / segment_angle)) % Global.WHEEL_ORDER.size()
 
 func lock_into_pocket():
 	var index = get_index_from_angle(angle)
@@ -124,19 +113,16 @@ func lock_into_pocket():
 	ball.global_position = center + offset
 	
 func end_spin() -> void:
-	if stopped:
-		return
 	stopped = true
 	angular_velocity = 0.0
 	wheel_angular_velocity = 0.0
-
+	ball.end_spin()
 	var index = get_index_from_angle(angle)
-	var number = roulette.wheel_numbers[index]
+	var number = Global.WHEEL_ORDER[index]
 	lock_into_pocket()
 	
-	
 	number_label.text = str(number)
-	colour_label.text = get_colour(number)
+	colour_label.text = Global.BetColor.keys()[Global.DEFAULT_NUMBER_COLORS[number]]
 	spin_button.disabled = false
 	spin_button.modulate = Color.WHITE
 	print("LANDED ON: ", number)

@@ -1,0 +1,89 @@
+[gd_scene load_steps=20 format=3 uid="uid://bu4pl1mksn5kx"]
+
+[ext_resource type="Script" uid="uid://d3dr0jruo0527" path="res://roulette.gd" id="1_6afvn"]
+[ext_resource type="Texture2D" uid="uid://d2nfkvoahfi3d" path="res://Assets/background.png" id="2_6wnlc"]
+[ext_resource type="PackedScene" uid="uid://cjw317m5l7q6x" path="res://scenes/layout.tscn" id="3_lp4gq"]
+[ext_resource type="Script" uid="uid://c8v6wycen7n56" path="res://wheel.gd" id="4_waas3"]
+[ext_resource type="PackedScene" uid="uid://6r3jpdwujkvb" path="res://wheel_segment.tscn" id="5_bjn61"]
+[ext_resource type="Texture2D" uid="uid://bns0uwronbf60" path="res://Assets/roulette_wheel.png" id="6_co0ci"]
+[ext_resource type="Script" uid="uid://d357ubukoc6yv" path="res://ball_pivot.gd" id="7_8wylf"]
+[ext_resource type="AudioStream" uid="uid://nxwmska4fde2" path="res://Assets/sfx/tickOne.wav" id="8_8he63"]
+[ext_resource type="AudioStream" uid="uid://6l2m6wtkn2eq" path="res://Assets/sfx/tickTwo.wav" id="9_yrbwv"]
+[ext_resource type="AudioStream" uid="uid://bv7rda5eqol2h" path="res://Assets/sfx/tickThree.wav" id="10_fyshn"]
+[ext_resource type="AudioStream" uid="uid://btnd12gjfxly6" path="res://Assets/sfx/tickFour.wav" id="11_7lkhj"]
+[ext_resource type="AudioStream" uid="uid://dxjricdqki4xy" path="res://Assets/sfx/tickFive.wav" id="12_jhaao"]
+[ext_resource type="AudioStream" uid="uid://wdcvvhhoqhaj" path="res://Assets/sfx/tickSix.wav" id="13_gdmip"]
+[ext_resource type="AudioStream" uid="uid://dxcef4hxxrgn3" path="res://Assets/sfx/tickSeven.wav" id="14_pi76v"]
+[ext_resource type="AudioStream" uid="uid://ct010bwor35ak" path="res://Assets/sfx/tickEight.wav" id="15_qtuqj"]
+[ext_resource type="PackedScene" uid="uid://c1rg2xqpg1ye0" path="res://scenes/ball.tscn" id="16_n301w"]
+[ext_resource type="Texture2D" uid="uid://bliotju7xi1on" path="res://Assets/spin_button.png" id="17_ucm42"]
+[ext_resource type="Texture2D" uid="uid://dtmj47j5s48rx" path="res://Assets/spin_button_down.png" id="18_o21qx"]
+[ext_resource type="FontFile" uid="uid://rkcb8hktwivk" path="res://Pixel TimesB.ttf" id="19_ib2xu"]
+
+[node name="Roulette" type="Node2D"]
+script = ExtResource("1_6afvn")
+red_color = Color(0.6745098, 0.19607843, 0.19607843, 1)
+black_color = Color(0.105882354, 0.105882354, 0.105882354, 1)
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(384, 216)
+texture = ExtResource("2_6wnlc")
+
+[node name="Layout" parent="." instance=ExtResource("3_lp4gq")]
+cell_size = Vector2(39, 31)
+grid_origin = Vector2(631, 14)
+
+[node name="Wheel" type="Node2D" parent="."]
+position = Vector2(222, 180)
+script = ExtResource("4_waas3")
+wheel_segment_scene = ExtResource("5_bjn61")
+wheel_radius = 140.0
+
+[node name="RouletteWheelSprite" type="Sprite2D" parent="Wheel"]
+z_index = 1
+texture = ExtResource("6_co0ci")
+
+[node name="BallSpin" type="Node2D" parent="."]
+position = Vector2(320, 160)
+script = ExtResource("7_8wylf")
+tick_sfx = Array[AudioStreamWAV]([ExtResource("8_8he63"), ExtResource("9_yrbwv"), ExtResource("10_fyshn"), ExtResource("11_7lkhj"), ExtResource("12_jhaao"), ExtResource("13_gdmip"), ExtResource("14_pi76v"), ExtResource("15_qtuqj")])
+radius = 96.0
+spin_min = 14.0
+spin_max = 23.0
+wheel_start_angle_deg = -85.0
+
+[node name="Ball" parent="BallSpin" instance=ExtResource("16_n301w")]
+z_index = 2
+
+[node name="WheelTickPlayer" type="AudioStreamPlayer2D" parent="BallSpin"]
+position = Vector2(-320, -160)
+volume_db = 5.0
+pitch_scale = 0.8
+max_polyphony = 32
+
+[node name="SpinButton" type="TextureButton" parent="."]
+offset_left = 142.0
+offset_top = 354.0
+offset_right = 302.0
+offset_bottom = 412.0
+texture_normal = ExtResource("17_ucm42")
+texture_pressed = ExtResource("18_o21qx")
+texture_disabled = ExtResource("18_o21qx")
+
+[node name="Number" type="Label" parent="."]
+offset_left = 340.0
+offset_top = 6.0
+offset_right = 436.0
+offset_bottom = 29.0
+theme_override_fonts/font = ExtResource("19_ib2xu")
+text = "Number"
+
+[node name="Colour" type="Label" parent="."]
+offset_left = 340.0
+offset_top = 38.0
+offset_right = 424.0
+offset_bottom = 61.0
+theme_override_fonts/font = ExtResource("19_ib2xu")
+text = "Colour"
+
+[connection signal="pressed" from="SpinButton" to="BallSpin" method="_on_spin_button_pressed"]
