@@ -87,10 +87,10 @@ theme_override_fonts/font = ExtResource("19_ib2xu")
 text = "Colour"
 
 [node name="BetLabel" type="Label" parent="."]
-offset_left = 423.0
-offset_top = 118.0
-offset_right = 535.0
-offset_bottom = 141.0
+offset_left = 372.0
+offset_top = 69.0
+offset_right = 484.0
+offset_bottom = 92.0
 theme_override_fonts/font = ExtResource("19_ib2xu")
 text = "Bet label"
 

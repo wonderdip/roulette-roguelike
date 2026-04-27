@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://blnpuip3x0qk8"]
+[gd_scene load_steps=5 format=3 uid="uid://blnpuip3x0qk8"]
 
 [ext_resource type="Script" uid="uid://cwt0ydf747ix2" path="res://scripts/layout_segment.gd" id="1_him0v"]
 [ext_resource type="Texture2D" uid="uid://dbs7li7xpf5wx" path="res://Assets/layoutcolours.png" id="2_lqoem"]
 [ext_resource type="FontFile" uid="uid://rkcb8hktwivk" path="res://fonts/Pixel TimesB.ttf" id="3_6b5py"]
+[ext_resource type="Texture2D" uid="uid://vnrx14w1k5oe" path="res://Assets/layoutoutline.png" id="4_vpwl5"]
 
 [node name="LayoutSegment" type="Node2D"]
 script = ExtResource("1_him0v")
@@ -23,3 +24,8 @@ text = "36"
 horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
+
+[node name="Outline" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(1, -1)
+texture = ExtResource("4_vpwl5")
