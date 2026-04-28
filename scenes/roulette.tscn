@@ -34,7 +34,7 @@ texture = ExtResource("2_6wnlc")
 position = Vector2(568, 0)
 
 [node name="Wheel" type="Node2D" parent="."]
-position = Vector2(222, 180)
+position = Vector2(182, 182)
 script = ExtResource("4_waas3")
 wheel_segment_scene = ExtResource("5_bjn61")
 wheel_radius = 140.0
@@ -62,10 +62,11 @@ pitch_scale = 0.8
 max_polyphony = 32
 
 [node name="SpinButton" type="TextureButton" parent="."]
-offset_left = 142.0
-offset_top = 354.0
-offset_right = 302.0
-offset_bottom = 412.0
+offset_left = 102.0
+offset_top = 360.0
+offset_right = 262.0
+offset_bottom = 418.0
+pivot_offset = Vector2(80, 29)
 texture_normal = ExtResource("17_ucm42")
 texture_pressed = ExtResource("18_o21qx")
 texture_disabled = ExtResource("18_o21qx")
@@ -91,11 +92,21 @@ offset_left = 372.0
 offset_top = 69.0
 offset_right = 484.0
 offset_bottom = 92.0
+theme_override_constants/line_spacing = 6
 theme_override_fonts/font = ExtResource("19_ib2xu")
 text = "Bet label"
+
+[node name="PayoutLabel" type="Label" parent="."]
+offset_left = 462.0
+offset_top = 7.0
+offset_right = 516.0
+offset_bottom = 30.0
+text = "Payout"
 
 [node name="PokerChip" parent="." instance=ExtResource("20_6wnlc")]
 z_index = 10
 position = Vector2(485, 84)
+
+[node name="Bets" type="Node2D" parent="."]
 
 [connection signal="pressed" from="SpinButton" to="BallSpin" method="_on_spin_button_pressed"]

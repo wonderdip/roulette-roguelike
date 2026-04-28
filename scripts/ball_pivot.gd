@@ -19,6 +19,7 @@ extends Node2D
 
 @onready var wheel_tick_player: AudioStreamPlayer2D = $WheelTickPlayer
 @onready var spin_button: TextureButton = $"../SpinButton"
+@onready var payout_label: Label = $"../PayoutLabel"
 
 var angle := 0.0
 var angular_velocity := 0.0
@@ -29,7 +30,6 @@ var wheel_angle: float = 0.0
 var wheel_angular_velocity: float = 0.0
 var wheel_friction: float = 0.985
 
-var stopped := false
 var wheel_start_angle_rad: float = 0.0
 
 var friction: float = 0.985
@@ -41,16 +41,11 @@ func _ready() -> void:
 	center = roulette_wheel.position
 	segment_angle = TAU / Global.WHEEL_ORDER.size()
 	wheel_start_angle_rad = deg_to_rad(wheel_start_angle_deg)
-	stopped = true
 	ball.hide()
+	payout_label.text = str(Global.starter_money)
 	
-	if tick_sfx.size() > 0:
-		wheel_tick_player.stream = tick_sfx[0]
-		wheel_tick_player.play()
-		wheel_tick_player.stop()
-		
 func start_spin() -> void:
-	stopped = false
+	Global.spinning = true
 	ball.show()
 	ball.start_spin()
 	angle = randf_range(0.0, TAU)
@@ -65,7 +60,7 @@ func _process(delta: float) -> void:
 	# Wheel always drifts at idle_speed, spin adds on top
 	wheel_angle += (wheel_angular_velocity + (-idle_speed)) * delta
 	
-	if stopped:
+	if not Global.spinning:
 		wheel_tick_player.stop()
 		play_tick()
 		roulette_wheel.rotation = wheel_angle
@@ -88,7 +83,7 @@ func _process(delta: float) -> void:
 		wheel_tick_player.pitch_scale = randf_range(0.8, 0.9)
 		tick_timer = clamp(1.0 / abs(angular_velocity), 0.05, 0.5)
 		
-	if not stopped and abs(angular_velocity) < stop_threshold:
+	if Global.spinning and abs(angular_velocity) < stop_threshold:
 		end_spin()
 		
 func play_tick():
@@ -113,7 +108,7 @@ func lock_into_pocket():
 	ball.global_position = center + offset
 	
 func end_spin() -> void:
-	stopped = true
+	Global.spinning = false
 	angular_velocity = 0.0
 	wheel_angular_velocity = 0.0
 	ball.end_spin()
@@ -125,6 +120,7 @@ func end_spin() -> void:
 	colour_label.text = Global.BetColor.keys()[Global.DEFAULT_NUMBER_COLORS[number]]
 	spin_button.disabled = false
 	spin_button.modulate = Color.WHITE
+	if Global.is_bet_winner(Global.current_bet, number): payout_label.text = str((Global.calculate_payout(Global.current_bet, 10)) + Global.current_money)
 	print("LANDED ON: ", number)
 
 func _on_spin_button_pressed() -> void:

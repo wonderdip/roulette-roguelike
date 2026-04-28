@@ -22,3 +22,6 @@ func set_highlight(highlighted: bool) -> void:
 	else:
 		$Sprite2D.modulate = Global.get_color(color)
 		$Outline.hide()
+
+func get_width() -> int: return 42
+func get_height() -> int: return 34

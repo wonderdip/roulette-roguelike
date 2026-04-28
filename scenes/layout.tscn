@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cjw317m5l7q6x"]
+[gd_scene load_steps=6 format=3 uid="uid://cjw317m5l7q6x"]
 
 [ext_resource type="Script" uid="uid://eco0t4ouf8oh" path="res://scripts/layout.gd" id="1_jx7fm"]
 [ext_resource type="PackedScene" uid="uid://blnpuip3x0qk8" path="res://scenes/layout_segment.tscn" id="2_trw21"]
 [ext_resource type="Texture2D" uid="uid://dh40ss8exfjd5" path="res://Assets/roulette_layout.png" id="3_272v2"]
 [ext_resource type="FontFile" uid="uid://rkcb8hktwivk" path="res://fonts/Pixel TimesB.ttf" id="4_08ldw"]
+[ext_resource type="Script" uid="uid://dl4ufqvihx8g0" path="res://scripts/segment_overlay.gd" id="5_trw21"]
 
 [node name="Layout" type="Node2D"]
 script = ExtResource("1_jx7fm")
@@ -199,6 +200,10 @@ vertical_alignment = 1
 [node name="ColourBets" type="Node2D" parent="Bets"]
 
 [node name="Segments" type="Node2D" parent="."]
+
+[node name="SegmentOverlay" type="Node2D" parent="."]
+script = ExtResource("5_trw21")
+color = Color(1, 0.6666667, 0.23921569, 1)
 
 [node name="GridStart" type="Marker2D" parent="."]
 position = Vector2(72, 4)

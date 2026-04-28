@@ -4,3 +4,4 @@
 
 [node name="Global" type="Node"]
 script = ExtResource("1_4pk28")
+starter_money = 10

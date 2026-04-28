@@ -26,6 +26,24 @@ enum BetType{
 	COLUMN_3, 
 }
 
+const BET_TYPE_PAYOUTS: = {
+	BetType.STRAIGHT: 35, 
+	BetType.SPLIT: 17, 
+	BetType.STREET: 11, 
+	BetType.CORNER: 8, 
+	BetType.ODD: 1, 
+	BetType.EVEN: 1, 
+	BetType.RED: 1, 
+	BetType.BLACK: 1, 
+	BetType.ONE_TO_18: 1, 
+	BetType.NINETEEN_TO_36: 1, 
+	BetType.FIRST_12: 2, 
+	BetType.SECOND_12: 2, 
+	BetType.THIRD_12: 2, 
+	BetType.COLUMN_1: 2, 
+	BetType.COLUMN_2: 2, 
+	BetType.COLUMN_3: 2, 
+}
 
 @export var RED_COLOR: = Color("ac3232")
 @export var BLACK_COLOR: = Color("1b1b1b")
@@ -74,11 +92,57 @@ var WHEEL_ORDER: Array[int] = [
 	5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26
 ]
 
-var current_bet: BetType
+var current_bet: Bet
+var current_money: float
+@export var starter_money: int
 
-func place_bet(bet: BetType):
-	current_bet = bet
+var spinning: bool = false
 
+func _ready() -> void:
+	randomize()
+	current_money = starter_money
+
+func calculate_payout(bet: Bet, bet_amount: int) -> float:
+	if not BET_TYPE_PAYOUTS.has(bet.type):
+		return 0
+	
+	var multiplier = BET_TYPE_PAYOUTS[bet.type]
+	return bet_amount * multiplier
+
+func is_bet_winner(bet: Bet, winning_number: int) -> bool:
+	match bet.type:
+		BetType.STRAIGHT:
+			return bet.number == winning_number
+		
+		BetType.RED:
+			return number_to_color(winning_number) == BetColor.RED
+		
+		BetType.BLACK:
+			return number_to_color(winning_number) == BetColor.BLACK
+		
+		BetType.EVEN:
+			return winning_number != 0 and winning_number % 2 == 0
+		
+		BetType.ODD:
+			return winning_number % 2 == 1
+		
+		_:
+			return false
+
+func place_bet(bet_zone: BetZone):
+	current_bet = Bet.new()
+	current_bet.type = bet_zone.bet_type
+	
+	current_bet.color = BetColor.NONE
+	current_bet.number = 0
+	
+	if current_bet.type == BetType.STRAIGHT and bet_zone.numbers.size() > 0:
+		current_bet.number = bet_zone.numbers[0]
+		current_bet.color = number_to_color(current_bet.number)
+		
+func number_to_color(number: int) -> BetColor:
+	return DEFAULT_NUMBER_COLORS[number]
+	
 func get_color(bet_color: BetColor) -> Color:
 	match bet_color:
 		BetColor.NONE:
