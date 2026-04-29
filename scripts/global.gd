@@ -1,5 +1,7 @@
 extends Node
 
+signal update_bet
+
 enum BetColor{
 	NONE, 
 	RED, 
@@ -26,11 +28,12 @@ enum BetType{
 	COLUMN_3, 
 }
 
-const BET_TYPE_PAYOUTS: = {
+var BET_TYPE_PAYOUTS: = {
 	BetType.STRAIGHT: 35, 
 	BetType.SPLIT: 17, 
 	BetType.STREET: 11, 
-	BetType.CORNER: 8, 
+	BetType.CORNER: 8,
+	BetType.DOUBLE_STREET: 5,
 	BetType.ODD: 1, 
 	BetType.EVEN: 1, 
 	BetType.RED: 1, 
@@ -43,6 +46,26 @@ const BET_TYPE_PAYOUTS: = {
 	BetType.COLUMN_1: 2, 
 	BetType.COLUMN_2: 2, 
 	BetType.COLUMN_3: 2, 
+}
+
+const BET_TYPE_COUNTS : Dictionary[BetType, int] = {
+	BetType.STRAIGHT: 1,
+	BetType.SPLIT: 2,
+	BetType.STREET: 3,
+	BetType.CORNER: 4,
+	BetType.DOUBLE_STREET: 6,
+	BetType.ODD: 18,
+	BetType.EVEN: 18,
+	BetType.RED: 18,
+	BetType.BLACK: 18,
+	BetType.ONE_TO_18: 18,
+	BetType.NINETEEN_TO_36: 18,
+	BetType.FIRST_12: 12,
+	BetType.SECOND_12: 12,
+	BetType.THIRD_12: 12,
+	BetType.COLUMN_1: 12,
+	BetType.COLUMN_2: 12,
+	BetType.COLUMN_3: 12,
 }
 
 @export var RED_COLOR: = Color("ac3232")
@@ -92,15 +115,33 @@ var WHEEL_ORDER: Array[int] = [
 	5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26
 ]
 
+
+enum GamePhase{
+	BETTING,
+	START_SPIN,
+	END_SPIN,
+	SHOP,
+}
+
 var current_bet: Bet
+var current_chip: PokerChip
 var current_money: float
 @export var starter_money: int
 
+var current_phase: GamePhase = GamePhase.BETTING
+var max_spins: int = 4
+var spins: int = 0
 var spinning: bool = false
+var current_round: int = 1
 
 func _ready() -> void:
 	randomize()
 	current_money = starter_money
+	
+	
+func get_odds(bet_type: BetType) -> float:
+	var numbers: float = BET_TYPE_COUNTS.values()[bet_type]
+	return (numbers / 36)*100
 
 func calculate_payout(bet: Bet, bet_amount: int) -> float:
 	if not BET_TYPE_PAYOUTS.has(bet.type):
@@ -110,24 +151,26 @@ func calculate_payout(bet: Bet, bet_amount: int) -> float:
 	return bet_amount * multiplier
 
 func is_bet_winner(bet: Bet, winning_number: int) -> bool:
-	match bet.type:
-		BetType.STRAIGHT:
-			return bet.number == winning_number
-		
-		BetType.RED:
-			return number_to_color(winning_number) == BetColor.RED
-		
-		BetType.BLACK:
-			return number_to_color(winning_number) == BetColor.BLACK
-		
-		BetType.EVEN:
-			return winning_number != 0 and winning_number % 2 == 0
-		
-		BetType.ODD:
-			return winning_number % 2 == 1
-		
-		_:
-			return false
+	if current_bet:
+		match bet.type:
+			BetType.STRAIGHT:
+				return bet.number == winning_number
+			
+			BetType.RED:
+				return number_to_color(winning_number) == BetColor.RED
+			
+			BetType.BLACK:
+				return number_to_color(winning_number) == BetColor.BLACK
+			
+			BetType.EVEN:
+				return winning_number != 0 and winning_number % 2 == 0
+			
+			BetType.ODD:
+				return winning_number % 2 == 1
+			
+			_:
+				return bet.bet_zone.numbers.has(winning_number)
+	return false
 
 func place_bet(bet_zone: BetZone):
 	current_bet = Bet.new()
@@ -135,11 +178,34 @@ func place_bet(bet_zone: BetZone):
 	
 	current_bet.color = BetColor.NONE
 	current_bet.number = 0
+	current_bet.bet_zone = bet_zone
 	
 	if current_bet.type == BetType.STRAIGHT and bet_zone.numbers.size() > 0:
 		current_bet.number = bet_zone.numbers[0]
 		current_bet.color = number_to_color(current_bet.number)
 		
+	update_bet.emit()
+	
+func type_to_string(type: BetType):
+	match type:
+		BetType.STRAIGHT: return "Straight"
+		BetType.SPLIT: return "Split"
+		BetType.STREET: return "Street"
+		BetType.DOUBLE_STREET: return "Double Street"
+		BetType.CORNER: return "Corner"
+		BetType.ODD: return "Odd"
+		BetType.EVEN: return "Even"
+		BetType.RED: return "Red"
+		BetType.BLACK: return "Black"
+		BetType.ONE_TO_18: return "First 18"
+		BetType.NINETEEN_TO_36: return "Second 18"
+		BetType.FIRST_12: return "First Dozen"
+		BetType.SECOND_12: return "Second Dozen"
+		BetType.THIRD_12: return "Third Dozen"
+		BetType.COLUMN_1: return "First Column"
+		BetType.COLUMN_2: return "Second Column"
+		BetType.COLUMN_3: return "Third COlumn"
+
 func number_to_color(number: int) -> BetColor:
 	return DEFAULT_NUMBER_COLORS[number]
 	

@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://ctwdx2eioe7ms"]
+
+[ext_resource type="Script" uid="uid://bha6hsotmdgyw" path="res://scripts/brief_case.gd" id="1_d1ryc"]
+[ext_resource type="Texture2D" uid="uid://bycfgs8jk7fac" path="res://Assets/poker_case.png" id="1_lqwp2"]
+
+[node name="ChipCase" type="Node2D"]
+script = ExtResource("1_d1ryc")
+rows = 2
+col = 6
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_lqwp2")
+
+[node name="Marker2D" type="Marker2D" parent="Sprite2D"]
+position = Vector2(-119, -107)
+
+[node name="ChipSlots" type="Node2D" parent="."]

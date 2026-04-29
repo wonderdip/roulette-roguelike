@@ -33,7 +33,7 @@ func spawn_segments() -> void:
 		var number = Global.WHEEL_ORDER[i]
 		segment_node.set_segment(
 			number,
-			Global.get_color(Global.DEFAULT_NUMBER_COLORS[number]),
+			Global.number_to_color(number),
 			sprite_index,
 			sprite_rotation,
 			i * 10,

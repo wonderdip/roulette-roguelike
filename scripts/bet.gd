@@ -4,6 +4,7 @@ class_name Bet
 var type: Global.BetType = Global.BetType.STRAIGHT
 var color: Global.BetColor = Global.BetColor.NONE
 var number: int
+var bet_zone: BetZone
 
 func type_to_string():
 	return Global.BetType.keys()[type]

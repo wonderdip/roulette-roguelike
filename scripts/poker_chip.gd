@@ -2,6 +2,8 @@ extends Node2D
 class_name PokerChip
 
 @export var value: int = 10
+@export var chip_drop: Array[AudioStream]
+@export var chip_pickup: Array[AudioStream]
 
 var dragging: bool = false
 var nearest_zone: BetZone = null
@@ -21,7 +23,6 @@ func _process(delta: float) -> void:
 		)
 		_find_nearest_zone()
 	
-	
 	if nearest_zone != last_zone:
 		# Clear old highlights
 		if last_zone:
@@ -30,15 +31,30 @@ func _process(delta: float) -> void:
 		if nearest_zone:
 			_set_zone_highlight(nearest_zone, true)
 		last_zone = nearest_zone
-		
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if not event.pressed and dragging:
+			_drop()
+			
 func _on_input_event(_viewport, event: InputEvent, _shape_idx) -> void:
 	if not Global.spinning:
 		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
 				dragging = true
-			else:
-				_drop()
-
+				$AudioStreamPlayer2D.stream = chip_pickup.pick_random()
+				$AudioStreamPlayer2D.pitch_scale = randf_range(0.95, 1.05)
+				$AudioStreamPlayer2D.play()
+				chip_shake()
+				
+func chip_shake():
+	var sprite = $Sprite2D
+	
+	var tween = create_tween()
+	tween.tween_property(sprite, "rotation_degrees", 15, 0.1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(sprite, "rotation_degrees", -15, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(sprite, "rotation", 0.0, 0.1)
+	
 func _find_nearest_zone() -> void:
 	var candidates = []
 	
@@ -67,10 +83,40 @@ func _set_zone_highlight(zone: Area2D, highlighted: bool) -> void:
 
 func _drop() -> void:
 	dragging = false
+	$AudioStreamPlayer2D.stream = chip_drop.pick_random()
+	$AudioStreamPlayer2D.pitch_scale = randf_range(0.95, 1.05)
 	$AnimationPlayer.play("chip_bounce")
-	if last_zone:
-		_set_zone_highlight(last_zone, true)
-		Global.place_bet(nearest_zone)
+	$AudioStreamPlayer2D.play()
+	chip_shake()
+	
+	if _is_over_layout():
+		if last_zone:
+			_set_zone_highlight(last_zone, true)
+			Global.place_bet(nearest_zone)
+	else:
+		_return_to_tray()
+
+func _is_over_layout() -> bool:
+	var layout_area = get_tree().get_first_node_in_group("layout_area")
+	if layout_area == null:
+		return false
+	for area in $Area2D.get_overlapping_areas():
+		if area == layout_area:
+			return true
+	return false
+
+func _return_to_tray() -> void:
+	_set_zone_highlight(last_zone, false)
+	last_zone = null
+	nearest_zone = null
+	var slots = get_tree().get_nodes_in_group("chip_slots")
+	if slots.is_empty():
+		return
+		
+	var slot = slots[0].global_position
+	
+	var tween = create_tween()
+	tween.tween_property(self, "global_position", slot, 0.3).set_trans(Tween.TRANS_SPRING).set_ease(Tween.EASE_OUT)
 
 func get_bet_priority(bet_type: Global.BetType) -> int:
 	match bet_type:
@@ -82,4 +128,3 @@ func get_bet_priority(bet_type: Global.BetType) -> int:
 		Global.BetType.FIRST_12, Global.BetType.SECOND_12, Global.BetType.THIRD_12: return 2  # 2:1
 		Global.BetType.COLUMN_1, Global.BetType.COLUMN_2, Global.BetType.COLUMN_3: return 2
 		_:                            return 1  # even money bets
-	return 0
