@@ -160,6 +160,6 @@ z_index = 10
 position = Vector2(485, 84)
 
 [node name="ChipCase" parent="." instance=ExtResource("21_waas3")]
-position = Vector2(133, 331)
+position = Vector2(134, 330)
 
 [connection signal="pressed" from="SpinButton" to="BallSpin" method="_on_spin_button_pressed"]
