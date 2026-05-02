@@ -1,29 +1,32 @@
 extends Node2D
 
-
-@export var red_color: Color
-@export var black_color: Color
-@onready var bet: Label = $Scoring/Control/BetDetails/HBoxContainer/VBoxContainer2/Bet
-@onready var odds: Label = $Scoring/Control/BetDetails/HBoxContainer/VBoxContainer2/Odds
-@onready var payout: Label = $Scoring/Control/BetDetails/HBoxContainer/VBoxContainer2/Payout
+@onready var bet_details_template: NinePatchRect = %BetDetails
+@onready var bets_container: VBoxContainer = $Scoring/Control/BetsContainer
 @onready var round_label: Label = $Scoring/Control/RoundLabel
 @onready var spin_button: TextureButton = $SpinButton
 
-var num_text = ""
-var color_text = ""
-
 func _ready() -> void:
-	Global.update_bet.connect(_on_bet_placed)
+	Global.update_bet.connect(_on_bet_updated)
 	spin_button.disabled = true
-	
-func _on_bet_placed() -> void:
-	if Global.current_bet:
-		spin_button.disabled = false
-		if Global.current_bet.number:
-			num_text = str(Global.current_bet.number)
-		if Global.current_bet.color != Global.BetColor.NONE:
-			color_text = Global.current_bet.color_to_string()
-		
-		bet.text = Global.type_to_string(Global.current_bet.type)
-		odds.text = "%.2f" % Global.get_odds(Global.current_bet.type) + "%"
-		payout.text = "%s" % roundi(Global.calculate_payout(Global.current_bet, 10)) + "$"
+	bet_details_template.hide()
+
+func _on_bet_updated() -> void:
+	# Clear all existing bet displays
+	for child in bets_container.get_children():
+		child.queue_free()
+
+	if Global.current_bets.is_empty():
+		spin_button.disabled = true
+		return
+
+	spin_button.disabled = false
+
+	for i in Global.current_bets.size():
+		var bet = Global.current_bets[i]
+		var chip = Global.current_chips[i]
+		var details = bet_details_template.duplicate()
+		details.show()
+		bets_container.add_child(details)
+		details.get_node("HBoxContainer/VBoxContainer2/Bet").text = Global.type_to_string(bet.type)
+		details.get_node("HBoxContainer/VBoxContainer2/Odds").text = "%.2f%%" % Global.get_odds(bet.type)
+		details.get_node("HBoxContainer/VBoxContainer2/Payout").text = "%d$" % roundi(Global.calculate_payout(bet, chip))

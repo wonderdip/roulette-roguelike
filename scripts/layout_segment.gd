@@ -14,14 +14,5 @@ func set_layout_segment(num: int, col: Global.BetColor):
 	$Sprite2D.modulate = Global.get_color(color)
 	$NumberLabel.text = str(number)
 
-var tween: Tween
-
-func set_highlight(highlighted: bool) -> void:
-	if highlighted:
-		$Outline.show()
-	else:
-		$Sprite2D.modulate = Global.get_color(color)
-		$Outline.hide()
-
 func get_width() -> int: return 42
 func get_height() -> int: return 34

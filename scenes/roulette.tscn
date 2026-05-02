@@ -19,7 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://dtmj47j5s48rx" path="res://Assets/spin_button_down.png" id="18_o21qx"]
 [ext_resource type="FontFile" uid="uid://rkcb8hktwivk" path="res://fonts/Pixel TimesB.ttf" id="19_ib2xu"]
 [ext_resource type="Texture2D" uid="uid://dpdnus2x8i72n" path="res://Assets/scoring_background.png" id="21_lp4gq"]
-[ext_resource type="PackedScene" uid="uid://ctwdx2eioe7ms" path="res://scenes/brief_case.tscn" id="21_waas3"]
+[ext_resource type="PackedScene" uid="uid://ctwdx2eioe7ms" path="res://scenes/chip_case.tscn" id="21_waas3"]
 
 [sub_resource type="Theme" id="Theme_lp4gq"]
 default_font = ExtResource("19_ib2xu")
@@ -27,8 +27,6 @@ default_font_size = 8
 
 [node name="Roulette" type="Node2D"]
 script = ExtResource("1_6afvn")
-red_color = Color(0.6745098, 0.19607843, 0.19607843, 1)
-black_color = Color(0.105882354, 0.105882354, 0.105882354, 1)
 
 [node name="Background" type="Sprite2D" parent="."]
 z_index = -10
@@ -38,7 +36,7 @@ texture = ExtResource("2_6wnlc")
 [node name="Scoring" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="Scoring"]
-position = Vector2(96, 225)
+position = Vector2(96, 224)
 texture = ExtResource("21_lp4gq")
 
 [node name="Control" type="Control" parent="Scoring"]
@@ -62,11 +60,13 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="BetDetails" type="NinePatchRect" parent="Scoring/Control"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 0
 offset_left = -2.0
 offset_top = 33.0
 offset_right = 190.0
-offset_bottom = 86.0
+offset_bottom = 87.0
 texture = ExtResource("5_waas3")
 patch_margin_left = 2
 patch_margin_top = 2
@@ -120,6 +120,14 @@ custom_minimum_size = Vector2(0, 11)
 layout_mode = 2
 vertical_alignment = 1
 
+[node name="BetsContainer" type="VBoxContainer" parent="Scoring/Control"]
+layout_mode = 0
+offset_left = -2.0
+offset_top = 33.0
+offset_right = 190.0
+offset_bottom = 236.0
+theme_override_constants/separation = -2
+
 [node name="Layout" parent="." instance=ExtResource("3_lp4gq")]
 position = Vector2(568, 0)
 
@@ -155,6 +163,8 @@ texture_pressed = ExtResource("18_o21qx")
 texture_disabled = ExtResource("18_o21qx")
 
 [node name="ChipCase" parent="." instance=ExtResource("21_waas3")]
-position = Vector2(2, 447)
+position = Vector2(2, 446)
+
+[node name="ChipTray" type="Node2D" parent="."]
 
 [connection signal="pressed" from="SpinButton" to="BallSpin" method="_on_spin_button_pressed"]

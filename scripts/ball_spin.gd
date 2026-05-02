@@ -113,7 +113,8 @@ func end_spin() -> void:
 	
 	spin_button.disabled = false
 	spin_button.modulate = Color.WHITE
-	print(Global.is_bet_winner(Global.current_bet, number))
+	for bet in Global.current_bets:
+		print("Bet: ", bet.type_to_string(), " | Winner: ", Global.is_bet_winner(bet, number))
 	print("LANDED ON: ", number)
 
 func _on_spin_button_pressed() -> void:

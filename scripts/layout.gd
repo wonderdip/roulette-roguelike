@@ -132,7 +132,7 @@ func spawn_street_bets():
 			var shape = CollisionShape2D.new()
 			shape.debug_color = Color(1, 0, 0, 0.3)
 			shape.shape = RectangleShape2D.new()
-			shape.shape.size = Vector2(8, 26)
+			shape.shape.size = Vector2(8, 13)
 			zone.add_child(shape)
 			zone.name = Global.BetType.keys()[zone.bet_type]
 			$Bets/StreetBets.add_child(zone, true)
@@ -177,7 +177,7 @@ func spawn_dozen_bets():
 		var shape = CollisionShape2D.new()
 		shape.debug_color = Color(0.5, 0.5, 0.5, 0.3)
 		shape.shape = RectangleShape2D.new()
-		shape.shape.size = Vector2(33, 134)
+		shape.shape.size = Vector2(10, 120)
 		zone.add_child(shape)
 		zone.name = Global.BetType.keys()[zone.bet_type]
 		$Bets/DozenBets.add_child(zone, true)

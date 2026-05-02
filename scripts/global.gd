@@ -123,8 +123,25 @@ enum GamePhase{
 	SHOP,
 }
 
-var current_bet: Bet
-var current_chip: PokerChip
+enum ChipType {
+	WHITE,
+	RED,
+	BLUE,
+	GREEN,
+	BLACK,
+}
+
+const CHIP_VALUES: Dictionary = {
+	ChipType.WHITE: 1,
+	ChipType.RED: 5,
+	ChipType.BLUE: 10,
+	ChipType.GREEN: 25,
+	ChipType.BLACK: 100,
+}
+
+var current_bets: Array[Bet] = []
+var current_chips: Array[PokerChip] = []
+
 var current_money: float
 @export var starter_money: int
 
@@ -141,17 +158,17 @@ func _ready() -> void:
 	
 func get_odds(bet_type: BetType) -> float:
 	var numbers: float = BET_TYPE_COUNTS.values()[bet_type]
-	return (numbers / 36)*100
+	return (numbers / 36) * 100
 
-func calculate_payout(bet: Bet, bet_amount: int) -> float:
+func calculate_payout(bet: Bet, chip: PokerChip) -> float:
 	if not BET_TYPE_PAYOUTS.has(bet.type):
 		return 0
 	
 	var multiplier = BET_TYPE_PAYOUTS[bet.type]
-	return bet_amount * multiplier
+	return chip.get_chip_value() * multiplier
 
 func is_bet_winner(bet: Bet, winning_number: int) -> bool:
-	if current_bet:
+	if current_bets:
 		match bet.type:
 			BetType.STRAIGHT:
 				return bet.number == winning_number
@@ -172,18 +189,26 @@ func is_bet_winner(bet: Bet, winning_number: int) -> bool:
 				return bet.bet_zone.numbers.has(winning_number)
 	return false
 
-func place_bet(bet_zone: BetZone):
-	current_bet = Bet.new()
-	current_bet.type = bet_zone.bet_type
-	
-	current_bet.color = BetColor.NONE
-	current_bet.number = 0
-	current_bet.bet_zone = bet_zone
-	
-	if current_bet.type == BetType.STRAIGHT and bet_zone.numbers.size() > 0:
-		current_bet.number = bet_zone.numbers[0]
-		current_bet.color = number_to_color(current_bet.number)
-		
+func place_bet(bet_zone: BetZone, chip: PokerChip) -> void:
+	var bet = Bet.new()
+	bet.type = bet_zone.bet_type
+	bet.color = BetColor.NONE
+	bet.number = 0
+	bet.bet_zone = bet_zone
+
+	if bet.type == BetType.STRAIGHT and bet_zone.numbers.size() > 0:
+		bet.number = bet_zone.numbers[0]
+		bet.color = number_to_color(bet.number)
+
+	current_bets.append(bet)
+	current_chips.append(chip)
+	update_bet.emit()
+
+func remove_bet(chip: PokerChip) -> void:
+	var idx = current_chips.find(chip)
+	if idx != -1:
+		current_bets.remove_at(idx)
+		current_chips.remove_at(idx)
 	update_bet.emit()
 	
 func type_to_string(type: BetType):
