@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bu4pl1mksn5kx"]
+[gd_scene load_steps=22 format=3 uid="uid://bu4pl1mksn5kx"]
 
 [ext_resource type="Script" uid="uid://d3dr0jruo0527" path="res://scripts/roulette.gd" id="1_6afvn"]
 [ext_resource type="Texture2D" uid="uid://d2nfkvoahfi3d" path="res://Assets/background.png" id="2_6wnlc"]
@@ -18,7 +18,6 @@
 [ext_resource type="Texture2D" uid="uid://bliotju7xi1on" path="res://Assets/spin_button.png" id="17_ucm42"]
 [ext_resource type="Texture2D" uid="uid://dtmj47j5s48rx" path="res://Assets/spin_button_down.png" id="18_o21qx"]
 [ext_resource type="FontFile" uid="uid://rkcb8hktwivk" path="res://fonts/Pixel TimesB.ttf" id="19_ib2xu"]
-[ext_resource type="PackedScene" uid="uid://c1qevlt2xpud" path="res://scenes/poker_chip.tscn" id="20_6wnlc"]
 [ext_resource type="Texture2D" uid="uid://dpdnus2x8i72n" path="res://Assets/scoring_background.png" id="21_lp4gq"]
 [ext_resource type="PackedScene" uid="uid://ctwdx2eioe7ms" path="res://scenes/brief_case.tscn" id="21_waas3"]
 
@@ -155,11 +154,7 @@ texture_normal = ExtResource("17_ucm42")
 texture_pressed = ExtResource("18_o21qx")
 texture_disabled = ExtResource("18_o21qx")
 
-[node name="PokerChip" parent="." instance=ExtResource("20_6wnlc")]
-z_index = 10
-position = Vector2(485, 84)
-
 [node name="ChipCase" parent="." instance=ExtResource("21_waas3")]
-position = Vector2(134, 330)
+position = Vector2(2, 447)
 
 [connection signal="pressed" from="SpinButton" to="BallSpin" method="_on_spin_button_pressed"]

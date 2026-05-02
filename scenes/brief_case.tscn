@@ -1,8 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://ctwdx2eioe7ms"]
+[gd_scene load_steps=7 format=3 uid="uid://ctwdx2eioe7ms"]
 
 [ext_resource type="Script" uid="uid://bha6hsotmdgyw" path="res://scripts/brief_case.gd" id="1_d1ryc"]
 [ext_resource type="Texture2D" uid="uid://bycfgs8jk7fac" path="res://Assets/poker_case.png" id="1_lqwp2"]
 [ext_resource type="Texture2D" uid="uid://b0dgn1fmor7o8" path="res://Assets/mini_chip_case.png" id="3_snhhq"]
+[ext_resource type="PackedScene" uid="uid://c1qevlt2xpud" path="res://scenes/poker_chip.tscn" id="4_v37ql"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v37ql"]
+size = Vector2(246, 208)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_snhhq"]
 size = Vector2(32, 31)
@@ -14,25 +18,48 @@ col = 6
 
 [node name="BigCase" type="Node2D" parent="."]
 
-[node name="Sprite2D" type="Sprite2D" parent="BigCase"]
+[node name="BigCaseTexture" type="Sprite2D" parent="BigCase"]
+position = Vector2(130, -118)
 texture = ExtResource("1_lqwp2")
 
-[node name="Marker2D" type="Marker2D" parent="BigCase/Sprite2D"]
+[node name="Marker2D" type="Marker2D" parent="BigCase/BigCaseTexture"]
 unique_name_in_owner = true
 position = Vector2(-119, -107)
 
 [node name="ChipSlots" type="Node2D" parent="BigCase"]
 unique_name_in_owner = true
+position = Vector2(130, -118)
+
+[node name="BigArea2D" type="Area2D" parent="BigCase"]
+unique_name_in_owner = true
+position = Vector2(130, -118)
+
+[node name="BigCollisionShape" type="CollisionShape2D" parent="BigCase/BigArea2D"]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_v37ql")
+
+[node name="Chips" type="Node2D" parent="BigCase"]
+unique_name_in_owner = true
+position = Vector2(130, -118)
+
+[node name="PokerChip" parent="BigCase/Chips" instance=ExtResource("4_v37ql")]
+position = Vector2(-104, -92)
 
 [node name="SmallCase" type="Node2D" parent="."]
 
-[node name="Sprite2D" type="Sprite2D" parent="SmallCase"]
+[node name="SmallCaseTexture" type="Sprite2D" parent="SmallCase"]
+position = Vector2(130, -118)
 texture = ExtResource("3_snhhq")
 
 [node name="SmallArea2D" type="Area2D" parent="SmallCase"]
+position = Vector2(130, -118)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SmallCase/SmallArea2D"]
+[node name="SmallCollisionShape" type="CollisionShape2D" parent="SmallCase/SmallArea2D"]
 position = Vector2(-112, 100.5)
 shape = SubResource("RectangleShape2D_snhhq")
 
+[node name="PlayedChips" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[connection signal="input_event" from="BigCase/BigArea2D" to="." method="_on_big_area_2d_input_event"]
 [connection signal="input_event" from="SmallCase/SmallArea2D" to="." method="_on_small_area_2d_input_event"]

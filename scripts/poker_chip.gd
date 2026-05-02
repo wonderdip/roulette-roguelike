@@ -13,7 +13,7 @@ var snap_radius: float = 10.0
 func _ready() -> void:
 	$Area2D.input_pickable = true
 	$Area2D.connect("input_event", _on_input_event)
-
+	
 func _process(delta: float) -> void:
 	if dragging:
 		var mouse_world = get_global_mouse_position()
@@ -41,11 +41,7 @@ func _on_input_event(_viewport, event: InputEvent, _shape_idx) -> void:
 	if not Global.spinning:
 		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
-				dragging = true
-				$AudioStreamPlayer2D.stream = chip_pickup.pick_random()
-				$AudioStreamPlayer2D.pitch_scale = randf_range(0.95, 1.05)
-				$AudioStreamPlayer2D.play()
-				chip_shake()
+				pick_up()
 				
 func chip_shake():
 	var sprite = $Sprite2D
@@ -81,6 +77,15 @@ func _set_zone_highlight(zone: Area2D, highlighted: bool) -> void:
 	if overlay:
 		overlay.highlight_zone(zone if highlighted else null)
 
+func pick_up():
+	dragging = true
+	$AudioStreamPlayer2D.stream = chip_pickup.pick_random()
+	$AudioStreamPlayer2D.pitch_scale = randf_range(0.95, 1.05)
+	$AudioStreamPlayer2D.play()
+	chip_shake()
+	var played_chips = get_tree().get_first_node_in_group("played_chips")
+	reparent(played_chips)
+
 func _drop() -> void:
 	dragging = false
 	$AudioStreamPlayer2D.stream = chip_drop.pick_random()
@@ -110,13 +115,19 @@ func _return_to_tray() -> void:
 	last_zone = null
 	nearest_zone = null
 	var slots = get_tree().get_nodes_in_group("chip_slots")
+	var chip_container = get_tree().get_first_node_in_group("chip_container")
 	if slots.is_empty():
 		return
 		
-	var slot = slots[0].global_position
+	var slot : ChipSlot = slots[0]
+	var slot_position: Vector2 = slot.global_position
 	
+	if not slot.case.open:
+		slot.case.open_case()
+	
+	reparent(chip_container)
 	var tween = create_tween()
-	tween.tween_property(self, "global_position", slot, 0.3).set_trans(Tween.TRANS_SPRING).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "global_position", slot_position, 0.3).set_trans(Tween.TRANS_SPRING).set_ease(Tween.EASE_OUT)
 
 func get_bet_priority(bet_type: Global.BetType) -> int:
 	match bet_type:
