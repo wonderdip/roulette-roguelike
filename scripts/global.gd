@@ -70,6 +70,9 @@ const BET_TYPE_COUNTS : Dictionary[BetType, int] = {
 
 @export var RED_COLOR: = Color("ac3232")
 @export var BLACK_COLOR: = Color("1b1b1b")
+@export var chip_palettes: Array[Texture2D]
+@export var original_palette: Texture2D
+
 
 var DEFAULT_NUMBER_COLORS: Dictionary[int, BetColor] = {
 	1: BetColor.RED, 

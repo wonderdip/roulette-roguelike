@@ -2,8 +2,7 @@ extends Node2D
 class_name PokerChip
 
 @export var chip_type: Global.ChipType = Global.ChipType.WHITE
-@export var chip_palettes: Array[Texture2D]
-@export var original_palette: Texture2D
+
 
 @export var shader: Shader
 @export var chip_drop: Array[AudioStream]
@@ -22,13 +21,19 @@ func _ready() -> void:
 	_layout_area = get_tree().get_first_node_in_group("layout_area")
 	_apply_palette()
 	
+	for slot in get_tree().get_nodes_in_group("chip_slots"):
+		if slot.slot_number == chip_type + 1:
+			home_slot = slot
+			slot.chip = self
+			
+			
 func _apply_palette() -> void:
-	if chip_palettes.is_empty():
+	if Global.chip_palettes.is_empty():
 		return
 	var mat = ShaderMaterial.new()
 	mat.shader = shader
-	mat.set_shader_parameter("original_palette", original_palette)
-	mat.set_shader_parameter("new_palette", chip_palettes[chip_type])
+	mat.set_shader_parameter("original_palette", Global.original_palette)
+	mat.set_shader_parameter("new_palette", Global.chip_palettes[chip_type])
 	mat.set_shader_parameter("colors_count", 6)
 	mat.set_shader_parameter("tolerance", 0.01)
 	$Sprite2D.material = mat
@@ -59,17 +64,16 @@ func _on_input_event(_viewport, event: InputEvent, _shape_idx) -> void:
 	if Global.spinning:
 		return
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		get_viewport().set_input_as_handled()  # stop the click reaching the case
 		pick_up()
 
 func pick_up() -> void:
 	dragging = true
+	home_slot.chip_in = false
+	scale = Vector2.ONE
 	Global.remove_bet(self)
 	_play_sfx(chip_pickup)
 	chip_shake()
-	
-	if home_slot:
-		home_slot.chip = null
-		home_slot = null
 
 func _drop() -> void:
 	dragging = false
@@ -82,7 +86,7 @@ func _drop() -> void:
 		Global.place_bet(nearest_zone, self)  # pass self
 	else:
 		_clear_highlight()
-		_return_to_tray()
+		_return_to_case()
 
 func _find_nearest_zone() -> void:
 	var best: BetZone = null
@@ -136,28 +140,24 @@ func _is_over_layout() -> bool:
 	)
 	return rect.has_point(global_position)
 
-func _return_to_tray() -> void:
-	# Find the first free slot
-	var free_slot: ChipSlot = null
-	for slot in get_tree().get_nodes_in_group("chip_slots"):
-		if slot.chip == null:
-			free_slot = slot
-			break
+func _return_to_case() -> void:
+	home_slot.chip_in = true
+	if home_slot.case.open:
+		go_to_chip_slot()
+	else:
+		var tween = create_tween()
+		tween.set_parallel(true)
+		tween.tween_property(self, "global_position", home_slot.case.global_position, 0.3)\
+			.set_trans(Tween.TRANS_SPRING).set_ease(Tween.EASE_OUT)
+		tween.tween_property(self, "scale", Vector2.ZERO, 0.3)\
+			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
-	if free_slot == null:
-		# No free slot — just stay in tray at current position
-		return
-
-	free_slot.chip = self
-	home_slot = free_slot
-
-	# Open case so player can see where chip is going
-	if not free_slot.case.open:
-		free_slot.case.open_case()
-
+func go_to_chip_slot():
+	home_slot.chip_in = true
 	var tween = create_tween()
-	tween.tween_property(self, "global_position", free_slot.global_position, 0.3)\
-		.set_trans(Tween.TRANS_SPRING).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "global_position", home_slot.global_position, 0.3).set_trans(Tween.TRANS_SPRING).set_ease(Tween.EASE_OUT)
+	if not home_slot.case.open:
+		scale = Vector2.ZERO
 
 func chip_shake() -> void:
 	var tween = create_tween()

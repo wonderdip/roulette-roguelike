@@ -2,8 +2,10 @@ extends Node2D
 class_name ChipSlot
 
 @export var slot_number: int
-@export var case: BriefCase
+@export var case: ChipCase
 @export var chip: PokerChip  # The chip currently occupying this slot (null = free)
+
+var chip_in: bool = true
 
 func _ready() -> void:
 	add_to_group("chip_slots")

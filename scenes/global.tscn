@@ -1,7 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://8rc8f1g5mi0f"]
+[gd_scene load_steps=7 format=3 uid="uid://8rc8f1g5mi0f"]
 
 [ext_resource type="Script" uid="uid://5unv0ra2rj1d" path="res://scripts/global.gd" id="1_4pk28"]
+[ext_resource type="Texture2D" uid="uid://17hsdlembhb3" path="res://Assets/poker_chips/white_palette.png" id="2_6rlim"]
+[ext_resource type="Texture2D" uid="uid://cxoq5toyvhn1m" path="res://Assets/poker_chips/original_palette.png" id="2_opebo"]
+[ext_resource type="Texture2D" uid="uid://cfh0k0wh7fuuh" path="res://Assets/poker_chips/blue_palette.png" id="3_m3l3d"]
+[ext_resource type="Texture2D" uid="uid://cvdm7p3t0sr0h" path="res://Assets/poker_chips/green_palette.png" id="5_mmyj5"]
+[ext_resource type="Texture2D" uid="uid://ct02pxja1dsro" path="res://Assets/poker_chips/black_palette.png" id="6_unqd7"]
 
 [node name="Global" type="Node"]
 script = ExtResource("1_4pk28")
+chip_palettes = Array[Texture2D]([ExtResource("2_6rlim"), ExtResource("2_opebo"), ExtResource("3_m3l3d"), ExtResource("5_mmyj5"), ExtResource("6_unqd7")])
+original_palette = ExtResource("2_opebo")
 starter_money = 10

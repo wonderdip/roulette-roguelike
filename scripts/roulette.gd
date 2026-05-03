@@ -5,6 +5,8 @@ extends Node2D
 @onready var round_label: Label = $Scoring/Control/RoundLabel
 @onready var spin_button: TextureButton = $SpinButton
 
+@export var shader: Shader
+
 func _ready() -> void:
 	Global.update_bet.connect(_on_bet_updated)
 	spin_button.disabled = true
@@ -30,3 +32,11 @@ func _on_bet_updated() -> void:
 		details.get_node("HBoxContainer/VBoxContainer2/Bet").text = Global.type_to_string(bet.type)
 		details.get_node("HBoxContainer/VBoxContainer2/Odds").text = "%.2f%%" % Global.get_odds(bet.type)
 		details.get_node("HBoxContainer/VBoxContainer2/Payout").text = "%d$" % roundi(Global.calculate_payout(bet, chip))
+		
+		var mat = ShaderMaterial.new()
+		mat.shader = shader
+		mat.set_shader_parameter("original_palette", Global.original_palette)
+		mat.set_shader_parameter("new_palette", Global.chip_palettes[chip.chip_type])
+		mat.set_shader_parameter("colors_count", 6)
+		mat.set_shader_parameter("tolerance", 0.01)
+		details.get_node("Sprite2D").material = mat
