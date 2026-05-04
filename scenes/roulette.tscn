@@ -199,7 +199,7 @@ texture_pressed = ExtResource("18_o21qx")
 texture_disabled = ExtResource("18_o21qx")
 
 [node name="ChipCase" parent="." instance=ExtResource("21_waas3")]
-position = Vector2(96, 324)
+position = Vector2(3, 324)
 
 [node name="Chips" type="Node2D" parent="."]
 script = ExtResource("21_bjn61")

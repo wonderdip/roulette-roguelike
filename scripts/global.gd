@@ -145,6 +145,7 @@ const CHIP_VALUES: Dictionary = {
 var current_bets: Array[Bet] = []
 var current_chips: Array[PokerChip] = []
 
+var max_chips: int = 5
 var current_money: float
 @export var starter_money: int
 
