@@ -158,7 +158,6 @@ func _ready() -> void:
 	randomize()
 	current_money = starter_money
 	
-	
 func get_odds(bet_type: BetType) -> float:
 	var numbers: float = BET_TYPE_COUNTS.values()[bet_type]
 	return (numbers / 36) * 100

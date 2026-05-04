@@ -111,11 +111,14 @@ func end_spin() -> void:
 	var number = Global.WHEEL_ORDER[index]
 	lock_into_pocket()
 	
+	
 	spin_button.disabled = false
 	spin_button.modulate = Color.WHITE
 	for bet in Global.current_bets:
 		print("Bet: ", bet.type_to_string(), " | Winner: ", Global.is_bet_winner(bet, number))
 	print("LANDED ON: ", number)
+	
 
+		
 func _on_spin_button_pressed() -> void:
 	start_spin()

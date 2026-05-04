@@ -12,5 +12,5 @@ func spawn_chips():
 		var chip = chip_scene.instantiate() as PokerChip
 		chip.chip_type = i
 		add_child(chip)
-		chip.go_to_chip_slot()
+		chip._return_to_case()
 		

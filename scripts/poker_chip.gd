@@ -142,22 +142,8 @@ func _is_over_layout() -> bool:
 
 func _return_to_case() -> void:
 	home_slot.chip_in = true
-	if home_slot.case.open:
-		go_to_chip_slot()
-	else:
-		var tween = create_tween()
-		tween.set_parallel(true)
-		tween.tween_property(self, "global_position", home_slot.case.global_position, 0.3)\
-			.set_trans(Tween.TRANS_SPRING).set_ease(Tween.EASE_OUT)
-		tween.tween_property(self, "scale", Vector2.ZERO, 0.3)\
-			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-
-func go_to_chip_slot():
-	home_slot.chip_in = true
 	var tween = create_tween()
 	tween.tween_property(self, "global_position", home_slot.global_position, 0.3).set_trans(Tween.TRANS_SPRING).set_ease(Tween.EASE_OUT)
-	if not home_slot.case.open:
-		scale = Vector2.ZERO
 
 func chip_shake() -> void:
 	var tween = create_tween()
