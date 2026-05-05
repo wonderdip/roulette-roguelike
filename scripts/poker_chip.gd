@@ -13,12 +13,9 @@ var nearest_zone: BetZone = null
 var last_zone: BetZone = null
 var home_slot: ChipSlot = null
 
-var _layout_area: Area2D = null
-
 func _ready() -> void:
-	$Area2D.input_pickable = true
-	$Area2D.connect("input_event", _on_input_event)
-	_layout_area = get_tree().get_first_node_in_group("layout_area")
+	%PickUpArea.input_pickable = true
+	%PickUpArea.connect("input_event", _on_input_event)
 	_apply_palette()
 	
 	for slot in get_tree().get_nodes_in_group("chip_slots"):
@@ -81,7 +78,7 @@ func _drop() -> void:
 	$AnimationPlayer.play("chip_bounce")
 	chip_shake()
 	
-	if _is_over_layout() and nearest_zone != null:
+	if nearest_zone != null:
 		_set_zone_highlight(nearest_zone, true)
 		Global.place_bet(nearest_zone, self)  # pass self
 	else:
@@ -92,7 +89,7 @@ func _find_nearest_zone() -> void:
 	var best: BetZone = null
 	var best_priority: int = -1
 
-	for zone in $Area2D.get_overlapping_areas():
+	for zone in %ZoneArea.get_overlapping_areas():
 		if zone is BetZone:
 			var priority = get_bet_priority(zone.bet_type)
 			if priority > best_priority:
@@ -125,20 +122,6 @@ func _clear_highlight() -> void:
 	if overlay:
 		var zones = Global.current_bets.map(func(b): return b.bet_zone)
 		overlay.highlight_zones(zones)
-
-func _is_over_layout() -> bool:
-	if _layout_area == null:
-		return false
-	# Use position-based check rather than physics overlap
-	# since overlap state may lag behind visual position
-	var layout_shape = _layout_area.get_node_or_null("CollisionShape2D")
-	if layout_shape == null:
-		return false
-	var rect = Rect2(
-		_layout_area.global_position,
-		layout_shape.shape.size
-	)
-	return rect.has_point(global_position)
 
 func _return_to_case() -> void:
 	home_slot.chip_in = true

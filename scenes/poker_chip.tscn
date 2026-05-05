@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://c1qevlt2xpud"]
+[gd_scene load_steps=21 format=4 uid="uid://c1qevlt2xpud"]
 
 [ext_resource type="Script" uid="uid://buvwyd0nbqxpy" path="res://scripts/poker_chip.gd" id="1_6m1hv"]
 [ext_resource type="Texture2D" uid="uid://duyehid1gcx1u" path="res://Assets/poker_chips/poker_chip.png" id="2_6m1hv"]
@@ -22,7 +22,10 @@ shader_parameter/colors_count = 6
 shader_parameter/tolerance = 0.01
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6m1hv"]
-radius = 12.0
+radius = 16.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x2t64"]
+radius = 11.0
 
 [sub_resource type="Animation" id="Animation_8dh0e"]
 length = 0.001
@@ -102,10 +105,18 @@ material = SubResource("ShaderMaterial_x2t64")
 texture = ExtResource("2_6m1hv")
 hframes = 4
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="PickUpArea" type="Area2D" parent="."]
+unique_name_in_owner = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickUpArea"]
 shape = SubResource("CircleShape2D_6m1hv")
+
+[node name="ZoneArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZoneArea"]
+shape = SubResource("CircleShape2D_x2t64")
+debug_color = Color(0.9959913, 0, 0.2036139, 0.41960785)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -117,4 +128,4 @@ stream = SubResource("AudioStreamWAV_f7fcw")
 volume_db = 4.0
 pitch_scale = 1.05
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="PickUpArea" to="." method="_on_area_2d_area_entered"]

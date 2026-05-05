@@ -10,7 +10,6 @@ extends Node2D
 
 @export var cell_size: Vector2 = Vector2(40, 32)
 @onready var grid_start: Marker2D = $GridStart
-@onready var layout_area: Area2D = $Area2D
 
 var start_pos: Vector2i
 
@@ -27,7 +26,7 @@ func _ready() -> void:
 	spawn_eighteen_bets()
 	spawn_even_odd_bets()
 	spawn_colour_bets()
-	layout_area.add_to_group("layout_area")
+	
 	
 func spawn_segments():
 	for i in range(Global.DEFAULT_NUMBER_COLORS.size()):

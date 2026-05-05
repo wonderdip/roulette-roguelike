@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cjw317m5l7q6x"]
+[gd_scene load_steps=7 format=3 uid="uid://cjw317m5l7q6x"]
 
 [ext_resource type="Script" uid="uid://eco0t4ouf8oh" path="res://scripts/layout.gd" id="1_jx7fm"]
 [ext_resource type="PackedScene" uid="uid://blnpuip3x0qk8" path="res://scenes/layout_segment.tscn" id="2_trw21"]
@@ -7,15 +7,12 @@
 [ext_resource type="Texture2D" uid="uid://dbs7li7xpf5wx" path="res://Assets/layoutcolours.png" id="5_272v2"]
 [ext_resource type="Script" uid="uid://dl4ufqvihx8g0" path="res://scripts/segment_overlay.gd" id="5_trw21"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_272v2"]
-size = Vector2(198, 444)
-
 [node name="Layout" type="Node2D"]
 script = ExtResource("1_jx7fm")
 layout_segment_scene = ExtResource("2_trw21")
 
 [node name="Layout" type="Sprite2D" parent="."]
-position = Vector2(99, 224)
+position = Vector2(99, 222)
 texture = ExtResource("3_272v2")
 
 [node name="Labels" type="Control" parent="Layout"]
@@ -238,10 +235,4 @@ script = ExtResource("5_trw21")
 color = Color(1, 0.6666667, 0.23921569, 1)
 
 [node name="GridStart" type="Marker2D" parent="."]
-position = Vector2(72, 4)
-
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(99, 224)
-shape = SubResource("RectangleShape2D_272v2")
+position = Vector2(72, 2)

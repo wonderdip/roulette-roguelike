@@ -1,6 +1,7 @@
 extends Node
 
 signal update_bet
+signal chip_slots_changed(amount: int)
 
 enum BetColor{
 	NONE, 
@@ -145,12 +146,13 @@ const CHIP_VALUES: Dictionary = {
 var current_bets: Array[Bet] = []
 var current_chips: Array[PokerChip] = []
 
-var max_chips: int = 5
+@export var max_chips: int = 8
+@export var chip_slots: int
 var current_money: float
 @export var starter_money: int
 
 var current_phase: GamePhase = GamePhase.BETTING
-var max_spins: int = 4
+@export var max_spins: int = 4
 var spins: int = 0
 var spinning: bool = false
 var current_round: int = 1
@@ -213,6 +215,10 @@ func remove_bet(chip: PokerChip) -> void:
 		current_bets.remove_at(idx)
 		current_chips.remove_at(idx)
 	update_bet.emit()
+
+func change_chip_slots(amount: int):
+	chip_slots += amount
+	chip_slots_changed.emit(amount)
 	
 func type_to_string(type: BetType):
 	match type:

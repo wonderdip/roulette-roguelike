@@ -10,7 +10,7 @@ var slots: Array[ChipSlot] = []
 func _ready() -> void:
 	start_pos = %Marker2D.global_position
 	spawn_chip_slots()
-	add_tray_segments(2)
+	Global.chip_slots_changed.connect(add_tray_segments)
 	
 func get_slot_global_position(slot_number: int) -> Vector2:
 	return Vector2(
@@ -37,8 +37,27 @@ func spawn_chip_slots() -> void:
 		slots.append(slot)
 		add_child(slot)
 
+func add_chip_slot(amount: int):
+	for slot in slots:
+		slot.global_position.x = slot.global_position.x - (chip_width + x_offset) / 2 * amount
+		if slot.slot_number == 1:
+			start_pos = slot.global_position
+			
+	for i in range(slots.size() + 1, amount + slots.size() + 1):
+		var slot = ChipSlot.new()
+		slot.slot_number = i
+		slot.position = get_slot_global_position(i)
+		slot.case = self
+		slots.append(slot)
+		add_child(slot)
+	
+	for slot in slots:
+		if slot.chip != null:
+			slot.chip._return_to_case()
+		
 func add_tray_segments(amount: int):
 	for i in range(0, amount):
 		var middle = %TrayMiddle.duplicate()
 		middle.show()
 		%TrayMiddle.add_sibling(middle, true)
+	add_chip_slot(amount)

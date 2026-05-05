@@ -11,4 +11,5 @@
 script = ExtResource("1_4pk28")
 chip_palettes = Array[Texture2D]([ExtResource("2_6rlim"), ExtResource("2_opebo"), ExtResource("3_m3l3d"), ExtResource("5_mmyj5"), ExtResource("6_unqd7")])
 original_palette = ExtResource("2_opebo")
+chip_slots = 5
 starter_money = 10

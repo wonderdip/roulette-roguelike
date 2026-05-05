@@ -60,6 +60,7 @@ script = ExtResource("1_6afvn")
 shader = ExtResource("2_co0ci")
 
 [node name="Background" type="Sprite2D" parent="."]
+visible = false
 z_index = -10
 position = Vector2(384, 224)
 texture = ExtResource("2_6wnlc")
@@ -165,10 +166,10 @@ offset_bottom = 295.0
 theme_override_constants/separation = -2
 
 [node name="Layout" parent="." instance=ExtResource("3_lp4gq")]
-position = Vector2(568, 0)
+position = Vector2(682, 16)
 
 [node name="Wheel" parent="." instance=ExtResource("7_6wnlc")]
-position = Vector2(380, 178)
+position = Vector2(448, 252)
 
 [node name="BallSpin" type="Node2D" parent="."]
 position = Vector2(320, 160)
@@ -189,17 +190,17 @@ pitch_scale = 0.8
 max_polyphony = 32
 
 [node name="SpinButton" type="TextureButton" parent="."]
-offset_left = 300.0
-offset_top = 360.0
-offset_right = 460.0
-offset_bottom = 418.0
+offset_left = 365.0
+offset_top = 11.0
+offset_right = 525.0
+offset_bottom = 69.0
 pivot_offset = Vector2(80, 29)
 texture_normal = ExtResource("17_ucm42")
 texture_pressed = ExtResource("18_o21qx")
 texture_disabled = ExtResource("18_o21qx")
 
 [node name="ChipCase" parent="." instance=ExtResource("21_waas3")]
-position = Vector2(3, 324)
+position = Vector2(448, 454)
 
 [node name="Chips" type="Node2D" parent="."]
 script = ExtResource("21_bjn61")
@@ -236,4 +237,12 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Options"
 
+[node name="Button" type="Button" parent="."]
+offset_left = 226.0
+offset_top = 68.0
+offset_right = 344.0
+offset_bottom = 99.0
+text = "extra chip slot"
+
 [connection signal="pressed" from="SpinButton" to="BallSpin" method="_on_spin_button_pressed"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
