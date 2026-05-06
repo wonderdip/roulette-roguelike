@@ -15,14 +15,25 @@ var home_slot: ChipSlot = null
 
 func _ready() -> void:
 	%PickUpArea.input_pickable = true
-	%PickUpArea.connect("input_event", _on_input_event)
 	_apply_palette()
+	collect_slots()
 	
+	%Popup.hide()
+	var old_width = %PopupRect.size.x
+
+	%ValueLabel.text = "%d$" % get_chip_value()
+	await get_tree().process_frame
+	var new_width = %ValueLabel.size.x + 10
+	%PopupRect.size.x = new_width
+
+	var diff = new_width - old_width
+	%PopupRect.position.x -= diff / 2.0
+	
+func collect_slots():
 	for slot in get_tree().get_nodes_in_group("chip_slots"):
 		if slot.slot_number == chip_type + 1:
 			home_slot = slot
 			slot.chip = self
-			
 			
 func _apply_palette() -> void:
 	if Global.chip_palettes.is_empty():
@@ -124,6 +135,7 @@ func _clear_highlight() -> void:
 		overlay.highlight_zones(zones)
 
 func _return_to_case() -> void:
+	%Popup.hide()
 	home_slot.chip_in = true
 	var tween = create_tween()
 	tween.tween_property(self, "global_position", home_slot.global_position, 0.3).set_trans(Tween.TRANS_SPRING).set_ease(Tween.EASE_OUT)
@@ -151,3 +163,10 @@ func get_bet_priority(bet_type: Global.BetType) -> int:
 		Global.BetType.FIRST_12, Global.BetType.SECOND_12, Global.BetType.THIRD_12: return 5
 		Global.BetType.COLUMN_1, Global.BetType.COLUMN_2, Global.BetType.COLUMN_3: return 4
 		_: return 1
+
+func _on_pick_up_area_mouse_entered() -> void:
+	%Popup.show()
+
+func _on_pick_up_area_mouse_exited() -> void:
+	if not dragging:
+		%Popup.hide()
