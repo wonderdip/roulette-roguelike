@@ -1,13 +1,29 @@
-[gd_scene load_steps=4 format=3 uid="uid://4r7gptm47fy1"]
+[gd_scene load_steps=5 format=3 uid="uid://4r7gptm47fy1"]
 
 [ext_resource type="Script" uid="uid://c8v6wycen7n56" path="res://scripts/wheel.gd" id="1_b52vq"]
 [ext_resource type="PackedScene" uid="uid://6r3jpdwujkvb" path="res://scenes/wheel_segment.tscn" id="2_drh0d"]
 [ext_resource type="Texture2D" uid="uid://bns0uwronbf60" path="res://Assets/roulette_wheel.png" id="3_gne1a"]
+[ext_resource type="Texture2D" uid="uid://b6whoq8viy2x" path="res://Assets/roulette_bowl.png" id="4_drh0d"]
 
 [node name="Wheel" type="Node2D"]
 script = ExtResource("1_b52vq")
 wheel_segment_scene = ExtResource("2_drh0d")
 wheel_radius = 140.0
 
-[node name="RouletteWheelSprite" type="Sprite2D" parent="."]
+[node name="Spinner" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="RouletteWheelSprite" type="Sprite2D" parent="Spinner"]
+z_index = 1
 texture = ExtResource("3_gne1a")
+
+[node name="RouletteBowlSprite" type="Sprite2D" parent="."]
+z_index = -2
+texture = ExtResource("4_drh0d")
+
+[node name="WheelTickPlayer" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-320, -160)
+volume_db = 5.0
+pitch_scale = 0.8
+max_polyphony = 32

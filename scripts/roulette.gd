@@ -39,8 +39,6 @@ func _on_bet_updated() -> void:
 		mat.set_shader_parameter("new_palette", Global.chip_palettes[chip.chip_type])
 		mat.set_shader_parameter("colors_count", 6)
 		mat.set_shader_parameter("tolerance", 0.01)
-		details.get_node("Sprite2D").material = mat
-
-func _on_button_pressed() -> void:
-	if Global.chip_slots < Global.max_chips:
-		Global.change_chip_slots(1)
+		mat.set_shader_parameter("brightness", 0.8)
+		details.get_node("ChipSprite").material = mat
+		

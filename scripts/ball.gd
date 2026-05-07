@@ -1,4 +1,5 @@
 extends Node2D
+class_name Ball
 
 @export var sfx: Array[AudioStreamWAV]
 @onready var ball_roll_player: AudioStreamPlayer2D = $BallRollPlayer
